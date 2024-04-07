@@ -1,10 +1,10 @@
 server:
-  port : 9999
+  port: 9999
 zuul:
   routes:
     offer:
-      path: /offer/**
-      url: http://offer:1001/api/v1
+      path: /offers/**
+      url: http://offers:1001/api/v1
     shoe:
       path: /shoe/**
       url: http://shoe:1002/api/v1
