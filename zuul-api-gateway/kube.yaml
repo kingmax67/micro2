@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "zuul"
+  namespace: ms
+  labels:
+    app: "zuul"
+spec:
+  selector:
+    matchLabels:
+      app: "zuul"
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: "zuul"
+    spec:
+      containers:
+      - name: "zuul"
+        image: kingsleyche67/zuul
+        ports:
+        - containerPort: 9999
+          name: "zuul"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "zuul"
+  namespace: ms
+spec:
+  selector:
+    app: "zuul"
+  type: NodePort
+  ports:
+  - name: "zuul"
+    port: 9999
+    targetPort: 9999
+    NodePort: 32470
+

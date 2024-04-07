@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "react-ui2"
+  namespace: ms
+  labels:
+    app: "react-ui2"
+spec:
+  selector:
+    matchLabels:
+      app: "react-ui2"
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: "react-ui2"
+    spec:
+      containers:
+      - name: "react-ui2"
+        image: kingsleyche67/ui2
+        ports:
+        - containerPort: 8080
+          name: "react-ui2"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "react-ui2"
+  namespace: ms
+spec:
+  selector:
+    app: "react-ui2"
+  type: NodePort
+  ports:
+  - name: "react-ui2"
+    port: 8080
+    targetPort: 8080
+
